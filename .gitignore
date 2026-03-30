@@ -1,0 +1,19 @@
+# Ignore system files
+.DS_Store
+
+# Ignore data from the following directories
+Samples/Sample_*
+**/work/
+
+# Ignore nextflow files and directories
+nextflow
+**/.nextflow.log*
+**/.nextflow/
+
+# Not ignore files with the following extensions
+!*.sh
+!*.py
+!*.nf
+
+# Ignore Miniconda installation scripts
+Miniconda3-*.sh
