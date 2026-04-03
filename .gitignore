@@ -11,7 +11,7 @@
 *.txt
 
 # Ignore Sample Directory
-*/Sample_*
+**/Sample_*/
 
 # Ignore nextflow files and directories
 nextflow
