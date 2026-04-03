@@ -1,9 +1,14 @@
 # Ignore system files
 .DS_Store
 
-# Ignore data from the following directories
-Samples/Sample_*
-**/work/
+# Ignore data files
+*.fastq.gz
+*.bam
+*.vcf.gz
+*.bed
+*.csv
+*.tsv
+*.txt
 
 # Ignore nextflow files and directories
 nextflow
