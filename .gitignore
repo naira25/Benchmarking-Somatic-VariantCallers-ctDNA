@@ -10,6 +10,9 @@
 *.tsv
 *.txt
 
+# Ignore Sample Directory
+*/Sample_*
+
 # Ignore nextflow files and directories
 nextflow
 **/.nextflow.log*
