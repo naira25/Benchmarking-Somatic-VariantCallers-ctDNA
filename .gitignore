@@ -2,16 +2,32 @@
 .DS_Store
 
 # Ignore data files
+*.fa
+*.amb
+*.bwt
+*.pac
+*.sa
+*.ann
 *.fastq.gz
 *.bam
+*.bam.bai
 *.vcf.gz
 *.bed
 *.csv
 *.tsv
 *.txt
+*.html
+*.zip
+*.xml
+*.dict
+*.fai
+
 
 # Ignore Sample Directory
 **/Sample_*/
+**/Results/
+**/Genome/
+
 
 # Ignore nextflow files and directories
 nextflow

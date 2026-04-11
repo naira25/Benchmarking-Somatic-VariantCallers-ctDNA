@@ -14,7 +14,7 @@ done
 
 for sample in "${samples[@]}"; do
 
-    SAMPLE_DIR="$BASE_DIR/Data/Samples/Sample_${sample}/fastq_data/fastq"
+    SAMPLE_DIR="$BASE_DIR/Samples/Sample_${sample}/fastq_data/fastq"
     CSV_FILE="${SAMPLE_DIR}/../samplesheet/samplesheet.csv"
     TXT_FILE="${SAMPLE_DIR}/../samplesheet/samplesheet.txt"
 

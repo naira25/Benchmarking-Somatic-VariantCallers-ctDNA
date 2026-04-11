@@ -1,6 +1,6 @@
 /*
 ==============================================
-    Nextflow Workflow for fastq quality control, alignment, sorting and indexing, marking duplicates
+    Nextflow Workflow for Variant Calling
 ===============================================
 */
 
@@ -27,11 +27,11 @@ genome_ch = Channel.fromPath(params.genome, checkIfExists: true)
  * Workflow Processes
  */
 
-process FASTQC {
+process MUTECT2 {
 
-    tag{"QC ${sample_id}"}
+    tag{"Variant Calling ${sample_id} with Mutect2"}
 
-    container 'biocontainers/fastqc:v0.11.9_cv8'
+    container 'broadinstitute/gatk'
 
     input:
     tuple val(sample_id), path(reads)
@@ -41,16 +41,25 @@ process FASTQC {
 
     script:
     """
-    mkdir fasqc_results
-    fastqc -o fasqc_results ${reads} -t 2 -q
+    gatk Mutect2 \
+        -I tumor.bam \
+        -I normal.bam \
+        -O somatic.vcf.gz \
+        -R reference.fa \
+        --normal-sample normal_sample_name
+
+    gatk FilterMutectCalls \
+        -R reference.fa \
+        -V ${sample_id}_unfiltered.vcf.gz \
+        -O ${sample_id}_filtered.vcf.gz
     """ 
 }
 
-process BWAMEM_SAMTOOLS_SORT {
+process LOFREQ {
 
-    tag{"Alinging and Sorting ${sample_id}"}
+    tag{"Variant Calling ${sample_id} with LoFreq"}
 
-    container 'biocontainers/bwa:v0.7.17-3-deb_cv1'
+    container 'broadinstitute/gatk'
  
     input:
     tuple val(sample_id), path(reads)
@@ -61,17 +70,40 @@ process BWAMEM_SAMTOOLS_SORT {
     
     script:
     """
-    bwa mem -t -2 -R ${indexed_reference_genome} ${reads[0]} ${reads[1]} | \\
-    samtools view -bS - | \\
-    samtools sort -o "${sample_id}.aligned.sorted.bam" -
+    lofreq somatic \
+        -n normal.bam -t tumor.bam -f hg19.fa \
+        --threads 8 -o out_ [-d dbsnp.vcf.gz] \
+        --call-indels
     """
 }
 
-process PICARD_MARKDUPLICATES {
+process VARDICT {
 
-    tag{"Marking Duplicates_${sample_id}"}
+    tag{"Variant Calling ${sample_id} with Vardict"}
 
-    container 'biocontainers/picard:v1.139_cv3'
+    container 'broadinstitute/gatk'
+
+    input:
+    tuple val(sample_id), path(sorted_alingment)
+
+    output:
+    tuple val(sample_id), path("${sample_id}_duplicates.bam"), emit: duplicates_alignments
+    path "${sample_id}_metrics.txt", emit: metrics
+
+    script:
+    """
+    java -jar picard.jar MarkDuplicates \\
+        I=${sorted_alingment} \\
+        O=${sample_id}_duplicates.bam \\
+        M=${sample_id}_metrics.txt \\
+        REMOVE_DUPLICATES=false
+    """
+
+    process ABEMUS {
+
+    tag{"Variant Calling ${sample_id} with ABEMUS"}
+
+    container 'broadinstitute/gatk'
 
     input:
     tuple val(sample_id), path(sorted_alingment)
