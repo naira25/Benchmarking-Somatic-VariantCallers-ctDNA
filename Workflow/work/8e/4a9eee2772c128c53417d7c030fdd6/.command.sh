@@ -1,3 +1,0 @@
-#!/bin/bash -ue
-mkdir SRX9642665_SRR13209649_fastqc
-fastqc -o SRX9642665_SRR13209649_fastqc SRX9642665_SRR13209649_1.fastq.gz SRX9642665_SRR13209649_2.fastq.gz -t 2 -q
