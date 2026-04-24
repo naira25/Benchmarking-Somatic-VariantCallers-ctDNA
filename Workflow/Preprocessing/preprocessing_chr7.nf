@@ -127,7 +127,6 @@ process PICARD_MARKDUPLICATES {
  */
 
 workflow {
-
         FASTQC(reads_ch)
         bwa_raw_ch = BWAMEM_ALIGNMENT(reads_ch, genome_ch)
         bam_sorted_ch = SAMTOOLS_SORT(bwa_raw_ch)
