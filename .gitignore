@@ -21,6 +21,7 @@
 *.xml
 *.dict
 *.fai
+*.json
 
 
 # Ignore Sample Directory
