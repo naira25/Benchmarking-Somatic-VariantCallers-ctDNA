@@ -1,44 +1,62 @@
-# Ignore system files
+# ==================================================================================================================================
+# GITIGNORE CONFIGURATION
+# ==================================================================================================================================
+# This file specifies which file extensions, local directories and software to ignore or push into the GitHub repository. It:
+# 1. Includes .sh and .nf scripts to be evaluated by the master thesis committee.
+# 2. Excludes large genomic data, intermediate processing files, local environment configurations and data directories.
+# ==================================================================================================================================
+
+# Ignore macOS system files
 .DS_Store
 
-# Ignore data files
-*.fa
+# 1. Include script files
+!*.sh
+!*.nf
+
+# 2. Ignore (*) large data and intermediary files
+# Genome reference and index files
+*.ann
 *.amb
-*.bwt
+*.dict
+*.fa
+*.fai
 *.pac
 *.sa
-*.ann
+*.bwt
+
+# Raw sequencing files
 *.fastq.gz
+
+# Alignment files
 *.bam
 *.bam.bai
-*.vcf.gz
+
+# Variant calling and interval files
 *.bed
+*.vcf.gz
+
+# Ignore summary reports, spreadsheets and metadata text files
 *.csv
+*.json
+*.html
+*.log
 *.tsv
 *.txt
-*.html
-*.zip
 *.xml
-*.dict
-*.fai
-*.json
+*.zip
 
+# Ignore Data Directories (**) to eclude local folders containing heavy data or results
+**/sample/ 
+**/subsamples/ 
+**/results/
+**/genome/
 
-# Ignore Sample Directory
-**/Sample_*/
-**/Results/
-**/Genome/
-
-
-# Ignore nextflow files and directories
+# Ignore Nextflow infrastructure
 nextflow
 **/.nextflow.log*
 **/.nextflow/
 
-# Not ignore files with the following extensions
-!*.sh
-!*.py
-!*.nf
-
 # Ignore Miniconda installation scripts
+Miniconda3-latest-Linux-aarch64.sh
+Miniconda3-latest-Linux-x86_64.sh
 Miniconda3-*.sh

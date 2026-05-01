@@ -1,8 +1,8 @@
 # Benchmarking-Somatic-VariantCallers-synthetic-ctDNA
 
-## This repository contains all codes related to the Benchmarking of Somatic Variant Callers in synthetic DNA Master Thesis.
+## This repository contains all scripts from the Benchmarking of Somatic Variant Callers in synthetic circulatingDNA Master Thesis.
 
-## Multiple directories have been created, each with a specific function.
+## Multiple directories have been created to store multiple functions. The repository structure is:
 
 ## 1. Workflow Directory
 ## 2. Subworkflow Directory
