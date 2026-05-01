@@ -46,7 +46,7 @@
 *.zip
 
 # Ignore Data Directories (**) to eclude local folders containing heavy data or results
-**/samples/ 
+**/samples/
 **/subsamples/ 
 **/results/
 **/genome/
