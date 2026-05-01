@@ -47,7 +47,7 @@
 
 # Ignore Data Directories (**) to eclude local folders containing heavy data or results
 **/samples/
-**/subsamples/ 
+**/subsamples/
 **/results/
 **/genome/
 **/metadata/
