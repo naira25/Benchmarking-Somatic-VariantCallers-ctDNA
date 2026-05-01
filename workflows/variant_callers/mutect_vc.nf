@@ -1,7 +1,21 @@
 /*
-==============================================
-    Nextflow Workflow for Variant Calling
-===============================================
+==================================================================================================================================
+# Mutect2 SOMATIC VARIANT CALLING PIPELINE
+==================================================================================================================================
+# This script calls somatic SNVs and InDels using the Mutect2 variant caller by:
+# 1. Calling variants with Mutect2 Somatic: variants are called in normal-tumor pairs, defining sample B as normal 
+#    and samples D and E as tumoral. Therefore, variant calling is performed for B-D and B-E pairs.
+    -n ${normal_bam}: indicate normal sample alignments (B)
+    -t ${tumor_bam}: indicate normal sample alignments (D or E)
+    -f ${fa_file}: indicate chromosome 7 fasta sequence
+    -l ${bed_file}: indicate bed file with Onco Panel sequenced regions on chromosome 7
+    --threads 4: number of parallel processes
+    -o ${vcf_prefix}: define output vcf file
+    --call-indels: call indels with SNVs
+# 2. Indexing resulting VCF file with SNVs and InDels
+
+# For each step, a specific Seqera container (compatible with bioconda and arm64/linux) has been used
+# ==================================================================================================================================
 */
 
 nextflow.enable.dsl=2
@@ -11,22 +25,24 @@ nextflow.enable.dsl=2
  */
 
 params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
-params.aligned_reads_bam = "${params.project}/Results/Results_Subsample_*/mark_duplicates/duplicates_alignments/*.bam"
-params.genome ="${params.project}/Genome/Chr7/chr7.fa"
-params.bed = "${params.project}/Metadata/chr7_target.bed"
-params.outdir = "${params.project}/Results"
+// Path to aligned reads with marked duplicates
+params.aligned_reads_bam = "${params.project}/results/Results_Subsample_*/mark_duplicates/duplicates_alignments/*.bam"
+// Path to Chromosome 7 reference FASTA and its corresponding index files
+params.genome ="${params.project}/genome/Chr7/chr7.fa"
+// Path to Onco Panel bed files from Chromosome 7
+params.bed = "${params.project}/metadata/bed_files/chr7_target.bed"
+// Path to the main Results directory
+params.outdir = "${params.project}/results"
 
 
 /*
  * Workflow Processes
  */
-
+// 1. Calling somatic SNVs and InDels with Mutect2
 process mutectSomaticVC {
 
     tag {"Variant Calling ${normal_sample} and ${tumor_sample} with Mutectc Somatic"}
-
     container 'community.wave.seqera.io/library/gatk4:4.6.2.0--eb4eddc44dc7fb63'
-
     publishDir "${params.outdir}/Results_Subsample_${subsample_id.replace('S', '')}/variant_calling/mutect_vcf", mode: 'copy'
  
     input:
@@ -41,6 +57,7 @@ process mutectSomaticVC {
     path("*.stats"), emit: mutect_stats
 
     script:
+    // Define the output directory name
     def vcf_prefix = "${subsample_id}_${normal_sample}_vs_${tumor_sample}"
     """
     gatk GetSampleName -I ${normal_bam} -O normal_name.txt

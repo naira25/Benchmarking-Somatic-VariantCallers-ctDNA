@@ -36,6 +36,7 @@ params.outdir = "${params.project}/Results"
 
 // 1. Quality Control Process using FastQC
 process fastQC {
+
     tag "Quality Control for ${sample_id} sample"
     container 'community.wave.seqera.io/library/fastqc:0.12.1--df99cb252670875a'
     publishDir "${params.outdir}/fastqc_reports", mode: 'copy'
@@ -57,6 +58,7 @@ process fastQC {
 
 // 2. Genome Alignment to Chr7 using BWA-MEM
 process bwamemAlignment {
+
     tag "Aligning sample ${sample_id}"
     container 'community.wave.seqera.io/library/bwa:0.7.19--a2905626cda4750d'
     
@@ -79,6 +81,7 @@ process bwamemAlignment {
 
 // 3. Sort and Index alignments using Samtools
 process samtoolsSort {
+
     tag "Sorting sample ${sample_id} alignments"
     container 'community.wave.seqera.io/library/samtools:1.23.1--e8c68bc6da750dc8'
     publishDir "${params.outdir}/bam_alignments_sorted", mode: 'copy'
@@ -100,6 +103,7 @@ process samtoolsSort {
 
 // 4. Mark PCR duplicates on sorted alignments using Picard MarkDuplicates
 process picardMarkDuplicates {
+
     tag "Marking Duplicates ${sample_id}"
     container 'community.wave.seqera.io/library/picard:3.4.0--6f28fdc142d7e8d3'
     publishDir "${params.outdir}/mark_duplicates/duplicates_alignments", mode: 'copy', pattern: "*.bam*"
@@ -138,7 +142,7 @@ workflow {
     // Channel for paired-end raw FASTQ reads
     reads_ch = Channel.fromFilePairs(params.reads, checkIfExists: true)
     
-    // Channel for Chromosome 7 reference FASTA and all index files
+    // Channel for Chromosome 7 reference FASTA
     genome_ch = Channel.fromPath("${params.genome_sequence}*", checkIfExists: true).collect()
 
     // Processes execution
