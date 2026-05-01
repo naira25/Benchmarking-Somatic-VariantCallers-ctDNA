@@ -46,10 +46,11 @@
 *.zip
 
 # Ignore Data Directories (**) to eclude local folders containing heavy data or results
-**/sample/ 
+**/samples/ 
 **/subsamples/ 
 **/results/
 **/genome/
+**/metadata/
 
 # Ignore Nextflow infrastructure
 nextflow
