@@ -7,8 +7,8 @@
 
 # Part1. Ground Truth variants file KnownPositives_hg19ToHg38.vcf.gz by:
 # 1. Indexing the original .vcf file (.csi) to enable coordinate-based filtering
-# 2. Subseting the variants to retain only those located on Chromosome 7
-# 3. Standardizing the sample name by renaming it to "TUMOR" to ensure consistency with test variants files
+# 2. Subsetting the variants to retain only those located on Chromosome 7
+# 3. Standardizing the sample name by renaming it to "TUMOR" to ensure consistency with test VCF files
 # 4. Indexing (.csi) the processed KnownPositives_chr7_rename.vcf.gz file necessary for downstream analysis
 
 # Part2. Ground Truth high-confidence regions file CTR_hg38.bed.gz by:

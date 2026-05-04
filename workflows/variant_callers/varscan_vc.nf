@@ -1,20 +1,19 @@
 /*
 ==================================================================================================================================
-# VarsCan SOMATIC VARIANT CALLING PIPELINE
+# VarsCan2 SOMATIC VARIANT CALLING PIPELINE
 ==================================================================================================================================
-# This script calls somatic SNVs and InDels using the VarsCan variant caller by:
-# 1. Calling variants with VarsCan Somatic: variants are called in normal-tumor pairs, defining sample B as normal 
-#    and samples D and E as tumoral. Therefore, variant calling is performed for B-D and B-E pairs.
-    -n ${normal_bam}: indicate normal sample alignments (B)
-    -t ${tumor_bam}: indicate normal sample alignments (D or E)
-    -f ${fa_file}: indicate chromosome 7 fasta sequence
-    -l ${bed_file}: indicate bed file with Onco Panel sequenced regions on chromosome 7
-    --threads 4: number of parallel processes
-    -o ${vcf_prefix}: define output vcf file
-    --call-indels: call indels with SNVs
-# 2. Merging identified SNVs and InDels into a single indexed VCF file
+# This script calls somatic SNVs and InDels using the VarScan2 variant caller by:
+# 1. Generating a multi-sample mpileup: Samtools is used to create a combined pileup of normal-tumor pairs.
+# 2. Calling variants with VarScan2 Somatic: Variants are called in normal-tumor pairs, defining sample B as normal 
+#    and samples D and E as tumor. Therefore, variant calling is performed for B-D and B-E pairs.
+    varscan somatic ${mpileup_file} ${vcf_prefix}:
+        --mpileup 1: Indicates that the input file is in mpileup format
+        --output-vcf 1: result is a single VCF file with SNVs and InDels
+        --min-var-freq 0.01: Sets the minimum variant allele frequency threshold to 1% (0.01)
+# 3. Filtering and Merging: extracts high-confidence somatic calls (Somatic Status 'SS=2') and merges SNV/InDel 
+#    outputs into a single indexed VCF file.
 
-# For each step, a specific Seqera container (compatible with bioconda and arm64/linux) has been used
+# For each step, a specific Seqera container (compatible with Bioconda and arm64/linux) has been used.
 # ==================================================================================================================================
 */
 
@@ -24,6 +23,7 @@ nextflow.enable.dsl=2
  * Workflow Input Parameters
  */
 
+// Path to the main project directory
 params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
 // Path to aligned reads with marked duplicates
 params.aligned_reads_bam = "${params.project}/results/Results_Subsample_*/mark_duplicates/duplicates_alignments/*.bam"
@@ -38,11 +38,10 @@ params.outdir = "${params.project}/results"
  * Workflow Processes
  */
 
-// 1. Calling somatic SNVs and InDels with LoFreq
+// 1. Generate a multi-sample mpileup for Normal and Tumor pairs using Samtools
 process samtoolsMpileup {
 
     tag {"MPileup ${normal_sample} and ${tumor_sample}"}
-
     container 'community.wave.seqera.io/library/samtools:1.23.1--e8c68bc6da750dc8'
  
     input:
@@ -56,17 +55,16 @@ process samtoolsMpileup {
     
     script:
     """
+    # Create mpileup file for the normal-tumor pair using samtools mpileup
     samtools mpileup -f ${fa_file} -l ${bed_file} ${normal_bam} ${tumor_bam} > ${tumor_sample}_vs_${normal_sample}.mpileup
     """
 }
 
-// 2. Calling somatic SNVs and InDels with LoFreq
+// 2. Calling somatic SNVs and InDels using VarScan2 Somatic
 process varscanSomaticVC {
 
-    tag {"Variant Calling ${normal_sample} and ${tumor_sample} with Varscan Somatic"}
-
+    tag {"Variant Calling ${normal_sample} and ${tumor_sample} with VarScan Somatic"}
     container 'community.wave.seqera.io/library/varscan:2.4.6--f136b57b5c999502'
-
     publishDir "${params.outdir}/Results_Subsample_${subsample_id.replace('S', '')}/variant_calling/varscan_vcf", mode: 'copy'
  
     input:
@@ -76,8 +74,10 @@ process varscanSomaticVC {
     tuple val(subsample_id), val(normal_sample), val(tumor_sample), path("*.vcf"), emit: vcf_group
     
     script:
+    // Define the output directory name
     def vcf_prefix = "${subsample_id}_${normal_sample}_vs_${tumor_sample}"
     """
+    # Perform somatic variant calling to identify somatic SNVs and InDels
     varscan somatic ${mpileup_file} ${vcf_prefix} \\
         --mpileup 1 \\
         --output-vcf 1 \\
@@ -85,13 +85,11 @@ process varscanSomaticVC {
     """
 }
 
-// 3. Calling somatic SNVs and InDels with LoFreq
+// 3. Filtering and Merging VCFs to extract high-confidence Somatic calls (Status 'SS=2') and merges SNV/InDel outputs into a single VCF file with bcftools
 process bcftoolsMergeVariants {
 
     tag {"Filtering ${normal_sample} and ${tumor_sample} variants with bcftools"}
-
     container 'community.wave.seqera.io/library/bcftools:1.23.1--15a480527db1d585'
-
     publishDir "${params.outdir}/Results_Subsample_${subsample_id.replace('S', '')}/variant_calling/benchmarking_vcf", mode: 'copy'
  
     input:
@@ -101,12 +99,15 @@ process bcftoolsMergeVariants {
     tuple val(subsample_id), path("${subsample_id}_${normal_sample}_vs_${tumor_sample}_varscan_final.vcf.gz*"), emit: varscan_final_vcf
     
     script:
+    // Define the output directory name
     def merged_prefix = "${subsample_id}_${normal_sample}_vs_${tumor_sample}_varscan_final.vcf.gz"
     """
+    # Iterate over VarScan output files to filter for strictly somatic calls (INFO/SS=2)
     for vcf in ${vcf_files}; do
         bcftools view -i 'INFO/SS == 2' \$vcf -Oz -o filtered_\$vcf.gz
         bcftools index -c filtered_\$vcf.gz
     done
+    # Concatenate the filtered SNVs and InDels into a single indexed VCF
     bcftools concat -a filtered_*.gz -Oz -o ${merged_prefix}
     bcftools index ${merged_prefix}
     """

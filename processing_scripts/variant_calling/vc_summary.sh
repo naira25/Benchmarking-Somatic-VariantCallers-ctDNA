@@ -3,10 +3,10 @@
 # ==================================================================================================================================
 # VARIANT CALLERS METRICS SUMMARY
 # ==================================================================================================================================
-# This script generates a summary .csv file with metrics from different variant callers
-# (LoFreq, VarDict, VarScan, Mutect2, and Ensemble) for each subsample (1, 3, 5) and tumor sample (D, E) by:
+# This script generates a summary CSV file with metrics from different variant callers
+# (LoFreq, VarDict, VarScan2, Mutect2 and the Ensemble Approach) for each subsample (1, 3, 5) and tumor sample (D, E) by:
 # 1. Counting variants that passed all quality filters (PASS)
-# 2. Categorizing identified variants into SNPs, Indels, and other types
+# 2. Categorizing identified variants into SNPs, Indels and other types
 # ==================================================================================================================================
 
 # Describe the working directories
@@ -44,11 +44,11 @@ for sub in "${subsamples[@]}"; do
             pass_count=$(bcftools query -f '%FILTER\n' "$vcf" 2>/dev/null | grep -cw "PASS")
             
             # 2. Count SNPs, Indels and other variant types
-            snps=$(bcftools view -v snps "$vcf" 2>/dev/null | grep -v "^#" | wc -l)    # Count SNPs
+            snps=$(bcftools view -v snps "$vcf" 2>/dev/null | grep -v "^#" | wc -l) # Count SNPs
             indels=$(bcftools view -v indels "$vcf" 2>/dev/null | grep -v "^#" | wc -l) # Count Indels
             altres=$(bcftools view -v other "$vcf" 2>/dev/null | grep -v "^#" | wc -l)  # Count other variants
 
-            # Append the extracted metrics to the final .csv file
+            # Append the extracted metrics to the final CSV file
             echo "S$sub,$caller,$mostra,$pass_count,$snps,$indels,$altres" >> "$OUTPUT_CSV"
         done
     done

@@ -5,7 +5,7 @@
 # ==================================================================================================================================
 # This script retrieves raw sequencing data (FASTQ files) for Samples B, D, and E
 # with the nf-core/fetchngs Nextflow pipeline using the following steps:
-# 1. Preparing the input metadata with SRA accession IDs.
+# 1. Preparing the input metadata with SRR accession IDs
 # 2. Downloading raw reads from public repositories based on the provided accessions
 # ==================================================================================================================================
 
@@ -16,23 +16,21 @@ NEXTFLOW_BIN="$BASE_DIR/nextflow"
 
 samples=("B" "D" "E") # Define an array with the samples to process
 
-# Iterate though each sample to fecth FASTQ files
+# Iterate through each sample to fetch FASTQ files
 for sample in "${samples[@]}"; do
-
-    echo "Processing Sample ${sample}"
     
     # Create the sample-specific output directories for the downloaded FASTQ files
     SAMPLE_DIR="$INPUT_DIR/Sample_${sample}"
     mkdir -p "$SAMPLE_DIR"
     
-    # 1. Convert the .txt file with SRA accession IDs to a .csv
+    # 1. Convert TXT files with SRR accession IDs to a CSV
     INPUT_TXT="$INPUT_DIR/SRR_Acc_${sample}.txt" # Define the path to the input .txt file 
     INPUT_CSV="$INPUT_DIR/SRR_Acc_${sample}.csv" # Define the path to the input .csv file
     cat "$INPUT_TXT" > "$INPUT_CSV"
 
     # 2. Run the nf-core/fetchngs Nextflow pipeline with the following options:
-    # --input: Provide the input .csv file with SRA accession IDs
-    # --outdit: Define the output directory for the downloaded FASTQ files
+    # --input: Provide the input .csv file with SRR accession IDs
+    # --outdir: Define the output directory for the downloaded FASTQ files
     # --max_capus/--max_memory: Define the computing resources allowed per process
     # -profile: Use a Docker container profile
     # -work-dir: Define the working directory for Nextflow

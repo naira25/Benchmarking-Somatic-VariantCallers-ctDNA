@@ -2,14 +2,14 @@
 # GITIGNORE CONFIGURATION
 # ==================================================================================================================================
 # This file specifies which file extensions, local directories and software to ignore or push into the GitHub repository. It:
-# 1. Includes .sh and .nf scripts to be evaluated by the master thesis committee.
-# 2. Excludes large genomic data, intermediate processing files, local environment configurations and data directories.
+# 1. Includes .sh and .nf scripts to be evaluated by the master thesis committee
+# 2. Excludes large genomic data, intermediate processing files, local environment configurations and data directories
 # ==================================================================================================================================
 
 # Ignore macOS system files
 .DS_Store
 
-# 1. Include script files
+# 1. Include (!*) script files
 !*.sh
 !*.nf
 
@@ -35,7 +35,7 @@
 *.bed
 *.vcf.gz
 
-# Ignore summary reports, spreadsheets and metadata text files
+# Ignore summary reports, samplesheets and metadata text files
 *.csv
 *.json
 *.html
@@ -45,7 +45,7 @@
 *.xml
 *.zip
 
-# Ignore Data Directories (**) to eclude local folders containing heavy data or results
+# Ignore Data Directories (**) to exclude local folders containing heavy data or results
 **/samples/
 **/subsamples/
 **/results/

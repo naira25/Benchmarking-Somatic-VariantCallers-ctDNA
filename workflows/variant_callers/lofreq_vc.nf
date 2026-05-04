@@ -5,10 +5,10 @@
 # This script calls somatic SNVs and InDels using the LoFreq variant caller by:
 # 1. Calling variants with LoFreq Somatic: variants are called in normal-tumor pairs, defining sample B as normal 
 #    and samples D and E as tumoral. Therefore, variant calling is performed for B-D and B-E pairs.
-    -n ${normal_bam}: indicate normal sample alignments (B)
-    -t ${tumor_bam}: indicate normal sample alignments (D or E)
-    -f ${fa_file}: indicate chromosome 7 fasta sequence
-    -l ${bed_file}: indicate bed file with Onco Panel sequenced regions on chromosome 7
+    -n ${normal_bam}: indicates path to normal sample alignments (B)
+    -t ${tumor_bam}: indicates path to tumor sample alignments (D or E)
+    -f ${fa_file}: indicates path to chromosome 7 reference FASTA sequence
+    -l ${bed_file}: indicates path to bed file with Onco Panel sequenced regions on chromosome 7
     --threads 4: number of parallel processes
     -o ${vcf_prefix}: define output vcf file
     --call-indels: call indels with SNVs
@@ -24,6 +24,7 @@ nextflow.enable.dsl=2
  * Workflow Input Parameters
  */
 
+// Path to the main project directory
 params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
 // Path to aligned reads with marked duplicates
 params.aligned_reads_bam = "${params.project}/results/Results_Subsample_*/mark_duplicates/duplicates_alignments/*.bam"
@@ -31,7 +32,7 @@ params.aligned_reads_bam = "${params.project}/results/Results_Subsample_*/mark_d
 params.genome ="${params.project}/genome/Chr7/chr7.fa"
 // Path to Onco Panel bed files from Chromosome 7
 params.bed = "${params.project}/metadata/bed_files/chr7_target.bed"
-// Path to the main Results directory
+// Path to the main results directory
 params.outdir = "${params.project}/results"
 
 
@@ -90,7 +91,7 @@ process bcftoolsMergeVariants {
     // Define the output directory name
     def merged_prefix = "${subsample_id}_${normal_sample}_vs_${tumor_sample}_lofreq_final.vcf.gz"
     """
-    # Index individual files first
+    # Index individual files to allow concatenation
     for vcf in ${vcf_files}; do
         bcftools index -c \$vcf
     done
@@ -107,7 +108,7 @@ process bcftoolsMergeVariants {
 
 workflow {
     
-    // Channel for aligned .bam .bai files wth marked duplicates for each Subsample 1, 3 and 5
+    // Channel for aligned .bam/.bai files wth marked duplicates for each Subsample 1, 3 and 5
     alignment_ch = Channel.fromPath(params.aligned_reads_bam, checkIfExists: true)
         .map { file -> 
             def sub_id = file.parent.parent.parent.name.replace("Results_Subsample_", "S")
