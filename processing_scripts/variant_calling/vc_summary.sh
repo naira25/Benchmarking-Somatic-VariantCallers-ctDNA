@@ -11,7 +11,7 @@
 
 # Describe the working directories
 BASE_DIR="/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
-OUTPUT_CSV="$BASE_DIR/results/Results_Subsample_1/variant_calling/summary.csv"
+OUTPUT_CSV="$BASE_DIR/results/summary.csv"
 
 subsamples=("1" "3" "5") # Define an array with the subsamples to process
 variant_callers=("lofreq" "vardict" "varscan" "mutect" "ensemble") # Define an array with the variant callers

@@ -9,7 +9,7 @@
 
 # Describe the working directories
 BASE_DIR="/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
-TXT_FILE="${BASE_DIR}/samples"
+TXT_FILE="${BASE_DIR}/samples/Accession_Files"
 
 subsamples=("1" "3" "5") # Define an array with the subsamples to process
 

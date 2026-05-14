@@ -13,7 +13,7 @@
 # Describe the working directories
 BASE_DIR="/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
 
-subsamples=("1" "3" "5") # Define an array with the subsamples to process
+subsamples=("1" "3""5") # Define an array with the subsamples to process
 samples=("D" "E") # Define an array with the tumor samples to process
 
 # Iterate through each of the subsamples variant calling results

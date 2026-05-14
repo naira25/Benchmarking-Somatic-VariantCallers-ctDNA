@@ -28,7 +28,7 @@ params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ct
 // Path to aligned reads with marked duplicates
 params.aligned_reads_bam = "${params.project}/results/Results_Subsample_*/mark_duplicates/duplicates_alignments/*.bam"
 // Path to Chromosome 7 reference FASTA and its corresponding index files
-params.genome ="${params.project}/genome/Chr7/chr7.fa"
+params.genome ="${params.project}/genome/chr7_genome/chr7.fa"
 // Path to Onco Panel bed files from Chromosome 7
 params.bed = "${params.project}/metadata/bed_files/chr7_target.bed"
 // Path to the main Results directory
@@ -65,7 +65,7 @@ process varscanSomaticVC {
 
     tag {"Variant Calling ${normal_sample} and ${tumor_sample} with VarScan Somatic"}
     container 'community.wave.seqera.io/library/varscan:2.4.6--f136b57b5c999502'
-    publishDir "${params.outdir}/Results_Subsample_${subsample_id.replace('S', '')}/variant_calling/varscan_vcf", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/varscan_vcf", mode: 'copy'
  
     input:
     tuple val(subsample_id), val(normal_sample), val(tumor_sample), path(mpileup_file)
@@ -90,7 +90,7 @@ process bcftoolsMergeVariants {
 
     tag {"Filtering ${normal_sample} and ${tumor_sample} variants with bcftools"}
     container 'community.wave.seqera.io/library/bcftools:1.23.1--15a480527db1d585'
-    publishDir "${params.outdir}/Results_Subsample_${subsample_id.replace('S', '')}/variant_calling/benchmarking_vcf", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/benchmarking_vcf", mode: 'copy'
  
     input:
     tuple val(subsample_id), val(normal_sample), val(tumor_sample), path(vcf_files)

@@ -23,11 +23,11 @@ nextflow.enable.dsl=2
  */
 params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
 // Path to raw paired-end {1,2} FASTQ reads
-params.reads = "${params.project}/Subsamples/Subsample_1/*_{1,2}.fastq.gz" 
+params.reads = "${params.project}/subsamples/Subsample_*/*_{1,2}.fastq.gz" 
 // Path to Chromosome 7 reference FASTA and its corresponding index files
-params.genome_sequence = "${params.project}/Genome/Chr7/chr7.fa" 
+params.genome_sequence = "${params.project}/genome/chr7_genome/chr7.fa" 
 // Path to the main Results directory
-params.outdir = "${params.project}/Results"
+params.outdir = "${params.project}/results/Results_Subsample_*"
 
 
 /*

@@ -69,9 +69,6 @@ for structure in "${subsamples_str[@]}"; do
         cat header_nou.vcf - | \
         bcftools view -Oz -o ${OUTPUT_DIR}/S${subsample}_B_${normal}_vs_${sam}_${tumor_sample}_lofreq_tumor.vcf.gz
 
-        # Remove temporarilly created headers
-        rm tumor_header.txt
-
         # Process Ensemble approach VCFs
         bcftools view -s "TUMOR" ${INPUT_DIR}/S${subsample}_B_${sam}_ensemble_2.vcf.gz -Oz -o ${OUTPUT_DIR}/S${subsample}_B_${normal}_vs_${sam}_${tumor_sample}_ensemble_tumor.vcf.gz
     done
