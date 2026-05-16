@@ -30,7 +30,7 @@ params.project = "/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ct
 params.genome ="${params.project}/genome/chr7_genome/chr7.fa"
 params.genome_index = "${params.project}/genome/chr7_genome/chr7.fa.fai"
 // Path to VCFs files from variant callers
-params.input_vcfs = "${params.project}/results/Results_Subsample_*/variant_calling/benchmarking_vcf/benchmarking_preprocessed/*.vcf.gz"
+params.input_vcfs = "${params.project}/results/Results_Subsample_5/variant_calling/benchmarking_vcf/benchmarking_preprocessed/*.vcf.gz"
 // Path to Truth Set VCF file
 params.truth = "${params.project}/metadata/truthset_files/TruthSet_chr7/KnownPositives_chr7_rename.vcf.gz"
 // Path to Onco Panel bed files from Chromosome 7
@@ -47,7 +47,7 @@ process vcfStats {
 
     tag "Generating VCF statistics for ${group_id}"
     container 'community.wave.seqera.io/library/bcftools:1.23.1--15a480527db1d585'
-    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/benchmarking_results/${group_id}/vcf_stats", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_5/variant_calling/benchmarking_results/${group_id}/vcf_stats", mode: 'copy'
 
     input:
     tuple val(subsample_id), val(group_id), val(vc_name), path(vcf)
@@ -67,7 +67,7 @@ process sompyBenchmark {
     tag "Creating Benchmarking Report for ${vc_name} using som.py"
     container 'community.wave.seqera.io/library/hap.py:0.3.15--cc9c0286f5a6f629'
     containerOptions "--platform linux/amd64"
-    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/benchmarking_results/${group_id}/sompy_results", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_5/variant_calling/benchmarking_results/${group_id}/sompy_results", mode: 'copy'
     
     input:
     tuple val(subsample_id), val(group_id), val(vc_name), path(test_vcf)
@@ -112,7 +112,7 @@ process sompyBenchmark {
 process mergeMetrics {
 
     tag "merging Benchmarking Metrics for ${subsample_id}"
-    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/benchmarking_results/${group_id}/merged_parameters", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_5/variant_calling/benchmarking_results/${group_id}/merged_parameters", mode: 'copy'
     
     input:
     tuple val(subsample_id), val(group_id), path(summary_files)
@@ -139,7 +139,7 @@ process multiQCreports {
 
     tag "MultiQC reports for ${subsample_id}"
     container 'multiqc/multiqc:latest'
-    publishDir "${params.outdir}/Results_Subsample_*/variant_calling/benchmarking_results/${group_id}/multiQC_reports", mode: 'copy'
+    publishDir "${params.outdir}/Results_Subsample_5/variant_calling/benchmarking_results/${group_id}/multiQC_reports", mode: 'copy'
 
     input:
     tuple val(subsample_id), val(group_id), path(summaries), path(stats)
