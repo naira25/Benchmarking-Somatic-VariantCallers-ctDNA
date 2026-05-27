@@ -3,11 +3,10 @@
 # ==================================================================================================================================
 # FAILED PREPROCESSING SCRIPT: nf-core/sarek PIPELINE 
 # ==================================================================================================================================
-# This script was originally developed to preprocess raw FASTQ reads for samples B, D, and E 
-# using the nf-core/sarek Nextflow pipeline.
+# This script was originally developed to preprocess raw FASTQ reads for samples B, D and E  using the nf-core/sarek Nextflow pipeline.
 
 # At first, we tested the pipeline using the whole Homo Sapiens reference genome (GRCh38). As the process was computationally
-# consuming, we narrowed the analysis and focused only on Chromosome 7. However, the pipeline's resource demands still exceeded the 
+# consuming, we narrowed the analysis and focused only on chromosome 7. However, the pipeline's resource demands still exceeded the 
 # capabilities of the local infrastructure. Therefore, we developed our own preprocessing workflow using nf-core/sarek as a reference.
 # ==================================================================================================================================
 

@@ -3,17 +3,17 @@
 # ==================================================================================================================================
 # PREPROCESSING VCF FILES FOR BENCHMARKING
 # ==================================================================================================================================
-# This script standardizes VCF files from different callers (MuTect2, VarDict, VarScan2, LoFreq and the Ensemble approach) by:
-# 1. Extracting only the tumor sample from multi-sample VCFs
-# 2. Renaming the tumor sample column to a generic "TUMOR" header
-# 3. For LoFreq, it adds missing genotype (GT) information to ensure compatibility
-# 4. Indexing all resulting files for downstream analysis
+# This script standardizes VCF files from different callers (Mutect2, VarDict, VarScan2, LoFreq and the Ensemble approach) by:
+# 1. Extracting only the tumor sample from multi-sample VCFs.
+# 2. Renaming the tumor sample column to a generic "TUMOR" header.
+# 3. For LoFreq, it adds missing genotype (GT) information to ensure compatibility.
+# 4. Indexing all resulting files for downstream analysis.
 # ==================================================================================================================================
 
 # Describe the working directories
 BASE_DIR="/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
 
-# Define the subsamples and their specific SRR accessions (Subsample:Normal:TumorD:TumorE)
+# Define the subsamples and their specific SRA accessions (Subsample:Normal:TumorD:TumorE)
 subsamples_str=(
     "1:SRX9642665_SRR13209649:SRX9642709_SRR13209605:SRX9642659_SRR13209655"
     "3:SRX9642673_SRR13209641:SRX9642677_SRR13209637:SRX9642685_SRR13209629"

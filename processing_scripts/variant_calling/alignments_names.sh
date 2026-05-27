@@ -3,8 +3,8 @@
 # ==================================================================================================================================
 # ALIGNMENTS (.bam, .bai) RENAME
 # ==================================================================================================================================
-# This script renames sorted alignments with Marked Duplicated (.bam .bai) by adding the corresponding sample B, D or E on the 
-# filename. It identifies the sample type by cross-referencing the SRR accession ID with the provided metadata text files.
+# This script renames sorted alignments with Marked Duplicates (.bam .bai) by adding the corresponding sample B, D or E on the 
+# filename. It identifies the sample type by cross-referencing the SRA accession ID with the provided metadata text files.
 # ==================================================================================================================================
 
 # Describe the working directories
@@ -22,8 +22,8 @@ for sub in "${subsamples[@]}"; do
     
         # Extract the base filename for each file
         file_name=$(basename "$alignment")
-        # Extract the SRR ID for each filename
-        srr=$(echo "$file_name" | cut -d'_' -f2)
+        # Extract the SRA ID for each filename
+        sra=$(echo "$file_name" | cut -d'_' -f2)
 
         # Initialize the sample variable
         sample=""

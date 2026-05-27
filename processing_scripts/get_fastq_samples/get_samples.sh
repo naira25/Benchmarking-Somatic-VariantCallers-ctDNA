@@ -3,10 +3,10 @@
 # ==================================================================================================================================
 # FASTQ DATA RETRIEVAL
 # ==================================================================================================================================
-# This script retrieves raw sequencing data (FASTQ files) for Samples B, D, and E
+# This script retrieves raw sequencing data (FASTQ files) for Samples B, D and E
 # with the nf-core/fetchngs Nextflow pipeline using the following steps:
-# 1. Preparing the input metadata with SRR accession IDs
-# 2. Downloading raw reads from public repositories based on the provided accessions
+# 1. Preparing the input metadata with SRA accession IDs.
+# 2. Downloading raw reads from public repositories based on the provided accessions.
 # ==================================================================================================================================
 
 # Describe the working directories
@@ -23,13 +23,13 @@ for sample in "${samples[@]}"; do
     SAMPLE_DIR="$INPUT_DIR/Sample_${sample}"
     mkdir -p "$SAMPLE_DIR"
     
-    # 1. Convert TXT files with SRR accession IDs to a CSV
+    # 1. Convert TXT files with SRA accession IDs to a CSV
     INPUT_TXT="$INPUT_DIR/SRR_Acc_${sample}.txt" # Define the path to the input .txt file 
     INPUT_CSV="$INPUT_DIR/SRR_Acc_${sample}.csv" # Define the path to the input .csv file
     cat "$INPUT_TXT" > "$INPUT_CSV"
 
     # 2. Run the nf-core/fetchngs Nextflow pipeline with the following options:
-    # --input: Provide the input .csv file with SRR accession IDs
+    # --input: Provide the input .csv file with SRA accession IDs
     # --outdir: Define the output directory for the downloaded FASTQ files
     # --max_capus/--max_memory: Define the computing resources allowed per process
     # -profile: Use a Docker container profile

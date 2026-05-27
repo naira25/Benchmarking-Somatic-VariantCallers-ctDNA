@@ -3,7 +3,7 @@
 # LoFreq SOMATIC VARIANT CALLING PIPELINE
 ==================================================================================================================================
 # This script calls somatic SNVs and InDels using the LoFreq variant caller by:
-# 1. Calling variants with LoFreq Somatic: variants are called in normal-tumor pairs, defining sample B as normal 
+# 1. Calling variants with LoFreq Somatic: variants are called in tumor-normal pairs, defining sample B as normal 
 #    and samples D and E as tumoral. Therefore, variant calling is performed for B-D and B-E pairs.
     -n ${normal_bam}: indicates path to normal sample alignments (B)
     -t ${tumor_bam}: indicates path to tumor sample alignments (D or E)
@@ -12,9 +12,9 @@
     --threads 4: number of parallel processes
     -o ${vcf_prefix}: define output vcf file
     --call-indels: call indels with SNVs
-# 2. Merging identified SNVs and InDels into a single indexed VCF file
+# 2. Merging identified SNVs and InDels into a single indexed VCF file.
 
-# For each step, a specific Seqera container (compatible with bioconda and arm64/linux) has been used
+# For each step, a specific Seqera container (compatible with ARM64 architecture) is used.
 # ==================================================================================================================================
 */
 

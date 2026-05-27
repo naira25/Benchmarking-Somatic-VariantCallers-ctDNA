@@ -3,8 +3,8 @@
 # VarsCan2 SOMATIC VARIANT CALLING PIPELINE
 ==================================================================================================================================
 # This script calls somatic SNVs and InDels using the VarScan2 variant caller by:
-# 1. Generating a multi-sample mpileup: Samtools is used to create a combined pileup of normal-tumor pairs.
-# 2. Calling variants with VarScan2 Somatic: Variants are called in normal-tumor pairs, defining sample B as normal 
+# 1. Generating a multi-sample mpileup: Samtools is used to create a combined pileup of tumor-normal pairs.
+# 2. Calling variants with VarScan2 Somatic: Variants are called in tumor-normal pairs, defining sample B as normal 
 #    and samples D and E as tumor. Therefore, variant calling is performed for B-D and B-E pairs.
     varscan somatic ${mpileup_file} ${vcf_prefix}:
         --mpileup 1: Indicates that the input file is in mpileup format
@@ -13,7 +13,7 @@
 # 3. Filtering and Merging: extracts high-confidence somatic calls (Somatic Status 'SS=2') and merges SNV/InDel 
 #    outputs into a single indexed VCF file.
 
-# For each step, a specific Seqera container (compatible with Bioconda and arm64/linux) has been used.
+# For each step, a specific Seqera container (compatible with ARM64 architecture) is used.
 # ==================================================================================================================================
 */
 

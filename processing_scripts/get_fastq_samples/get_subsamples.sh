@@ -5,9 +5,9 @@
 # ==================================================================================================================================
 # This script creates 3 subsamples (1, 3 and 5) containing FASTQ files for samples B, D and E.
 # It selects runs with the highest number of sequenced bases from three sequencing labs:
-# - Lab 10 (corresponding to Subsample 1)
-# - Lab 20 (corresponding to Subsample 3)
-# - Lab 21 (corresponding to Subsample 5)
+# - Lab 10 (corresponding to Subsample 1).
+# - Lab 20 (corresponding to Subsample 3).
+# - Lab 21 (corresponding to Subsample 5).
 # ==================================================================================================================================
 
 # Describe the working directories

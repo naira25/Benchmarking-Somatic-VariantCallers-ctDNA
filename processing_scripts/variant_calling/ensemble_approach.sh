@@ -5,9 +5,9 @@
 # ==================================================================================================================================
 # This script integrates results from LoFreq, Mutect2, VarScan2 and VarDict. For each sample pair (B-D and B-E)
 # it implements a consensus approach to get variants identified by at least 2 out of the 4 variant callers by:
-# 1. Identifying and extracting variants supported by a minimum of 2 out of the 4 callers
-# 2. Merging consensus variants into a single Ensemble VCF file and sorting the file by genomic coordinate order 
-# 3. Generating indexes (.csi) necessary for downstream benchmarking analysis
+# 1. Identifying and extracting variants supported by a minimum of 2 out of the 4 callers.
+# 2. Merging consensus variants into a single Ensemble VCF file and sorting the file by genomic coordinate order .
+# 3. Generating indexes (.csi) necessary for downstream benchmarking analysis.
 # ==================================================================================================================================
 
 # Describe the working directories

@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # ==================================================================================================================================
-# REFERENCE GENOME PROCESSING: Chromosome 7 Homo Sapiens (GRCh38)
+# REFERENCE GENOME PROCESSING: Homo Sapiens (GRCh38) chromosome 7
 # ==================================================================================================================================
-# This script prepares the Chromosome 7 reference sequence from the UCSC Genome Browser.
+# This script prepares the chromosome 7 reference sequence from the UCSC Genome Browser.
 # It performs the following steps to enable downstream alignment and variant calling by:
-# 1. Downloading and decompressing the raw FASTA sequence (chr7.fa.gz)
-# 2. Generating BWA indexes (.amb, .ann, .bwt, .pac, .sa) required for the alignment process
-# 3. Producing a FASTA Index (.fai) for efficient access to genomic coordinates
-# 4. Creating a Sequence Dictionary (.dict) necessary for GATK and other analysis tools
+# 1. Downloading and decompressing the raw FASTA sequence (chr7.fa.gz).
+# 2. Generating BWA indexes (.amb, .ann, .bwt, .pac, .sa) required for the alignment process.
+# 3. Producing a FASTA Index (.fai) for efficient access to genomic coordinates.
+# 4. Creating a Sequence Dictionary (.dict) necessary for GATK and other analysis tools.
 # ==================================================================================================================================
 
 # Describe the working directories

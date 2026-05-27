@@ -3,13 +3,12 @@
 # NEXTFLOW PREPROCESSING PIPELINE
 ==================================================================================================================================
 # This script processes paired-end raw FASTQ reads from samples B, D, and E following GATK4 best practices:
-# 1. Quality Control (FastQC): generate quality reports for raw FASTQ reads using FastQC
-# 2. Genome Alignment (.bam/.bai): align reads to the Chromosome 7 reference (GRCh38) sequence using BWA-MEM
-#    Raw alignments are not stored locally to optimize space
-# 3. Post-alignment: sort and index the resulting BAM files using Samtools
-# 4. Duplicate Marking: identify PCR duplicates using Picard MarkDuplicates
+# 1. Quality Control (FastQC): generate quality reports for raw FASTQ reads using FastQC.
+# 2. Genome Alignment (.bam/.bai): align reads to the Homo sapiens (GRCh38) Chromosome 7 reference sequence using BWA-MEM.
+# 3. Post-alignment: sort and index the resulting BAM files using Samtools.
+# 4. Duplicate Marking: identify PCR duplicates using Picard MarkDuplicates.
 #
-# For each step, a specific Seqera container (compatible with bioconda and arm64x) has been used.
+# For each step, a specific Seqera container (compatible with bioconda and ARM64x) is used.
 #
 # To manage hardware limitations, the pipeline is designed to be implemented separately for each sample group
 # to ensure stability and efficient resource consumption on local machines.

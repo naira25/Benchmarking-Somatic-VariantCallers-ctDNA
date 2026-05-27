@@ -5,8 +5,8 @@
 # ==================================================================================================================================
 # This script generates a summary CSV file with metrics from different variant callers
 # (LoFreq, VarDict, VarScan2, Mutect2 and the Ensemble Approach) for each subsample (1, 3, 5) and tumor sample (D, E) by:
-# 1. Counting variants that passed all quality filters (PASS)
-# 2. Categorizing identified variants into SNPs, Indels and other types
+# 1. Counting variants that passed all quality filters (PASS).
+# 2. Categorizing identified variants into SNPs, Indels and other types.
 # ==================================================================================================================================
 
 # Describe the working directories

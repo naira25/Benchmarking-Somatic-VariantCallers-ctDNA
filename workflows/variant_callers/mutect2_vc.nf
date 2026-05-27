@@ -3,7 +3,7 @@
 # Mutect2 SOMATIC VARIANT CALLING PIPELINE
 ==================================================================================================================================
 # This script calls somatic SNVs and InDels using the GATK4 Mutect2 variant caller by:
-# 1. Calling variants with Mutect2: variants are called in normal-tumor pairs, defining sample B as normal 
+# 1. Calling variants with Mutect2: variants are called in tumor-normal pairs, defining sample B as normal 
 #    and samples D and E as tumoral. Therefore, variant calling is performed for B-D and B-E pairs.
     -R ${fa_file}: indicates path to chromosome 7 reference FASTA sequence
     -I ${tumor_bam}: indicates path to tumor sample alignments (D or E)
@@ -15,7 +15,7 @@
 #    - SelectVariants: extracts high-confidence SNVs and InDels that passed all filters (--exclude-filtered).
 # 3. The final VCF file is renamed and indexed for downstream benchmarking.
 
-# For each step, a specific Seqera container (compatible with bioconda and arm64/linux) has been used
+# For each step, a specific Seqera container (compatible with ARM64 architecture) is used.
 # ==================================================================================================================================
 */
 

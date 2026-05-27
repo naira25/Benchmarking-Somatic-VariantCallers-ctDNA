@@ -3,17 +3,17 @@
 # ==================================================================================================================================
 # TRUTH SET DATA PREPARATION 
 # ==================================================================================================================================
-# This script processes the Ground Truth data.
+# This script processes the Truth Set data.
 
 # Part1. Ground Truth variants file KnownPositives_hg19ToHg38.vcf.gz by:
-# 1. Indexing the original .vcf file (.csi) to enable coordinate-based filtering
-# 2. Subsetting the variants to retain only those located on Chromosome 7
-# 3. Standardizing the sample name by renaming it to "TUMOR" to ensure consistency with test VCF files
-# 4. Indexing (.csi) the processed KnownPositives_chr7_rename.vcf.gz file necessary for downstream analysis
+# 1. Indexing the original .vcf file (.csi) to enable coordinate-based filtering.
+# 2. Subsetting the variants to retain only those located on Chromosome 7.
+# 3. Standardizing the sample name by renaming it to "TUMOR" to ensure consistency with test VCF files.
+# 4. Indexing (.csi) the processed KnownPositives_chr7_rename.vcf.gz file necessary for downstream analysis.
 
 # Part2. Ground Truth high-confidence regions file CTR_hg38.bed.gz by:
-# 1. Filtering the BED file to include only High-Confidence regions within Chromosome 7
-# 2. Generating an index for the processed BED file
+# 1. Filtering the BED file to include only High-Confidence regions within Chromosome 7.
+# 2. Generating an index for the processed BED file.
 # ==================================================================================================================================
 
 # Describe the working directories

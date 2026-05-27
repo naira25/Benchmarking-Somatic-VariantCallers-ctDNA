@@ -4,13 +4,14 @@
 # FAILED BENCHMARKING SCRIPT: nf-core/variantbenchmarking PIPELINE 
 # ==================================================================================================================================
 # This script was developed to perform a benchmarking of variant callers using the Benchmarking 
-# nf-core/variantbenchmarking PIPELINE from Nextflow.
+# nf-core/variantbenchmarking pipeline from Nextflow.
 
 # We ended up not using them due to normalization limitations. 
 # ==================================================================================================================================
 
 # Describe the working directories
 BASE_DIR="/Users/nairaramosandres/Benchmarking-Somatic-VariantCallers-ctDNA"
+
 samples=("D" "E") # Define an array with the tumor samples
 subsamples=("1" "3" "5") # Define an array with the subsamples to process
 
@@ -18,6 +19,7 @@ subsamples=("1" "3" "5") # Define an array with the subsamples to process
 for sub in "${subsamples[@]}"; do
     # Iterate through each tumor sample
     for sam in "${samples[@]}"; do
+    
         # Define the input CSV file required by the pipeline with information from VCF variants
         INPUT_CSV="$BASE_DIR/results/Results_Subsample_${sub}/variant_calling/benchmarking_parameters/samplesheet_${sub}_B_${sam}_benchmarking.csv"
         # Define the output directory
